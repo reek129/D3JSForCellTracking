@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>trial</title>
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+ <script src = "https://d3js.org/d3.v4.min.js"></script> 
+<!-- <link rel="preload" as="script" href="https://d3js.org/d3.v4.min.js"> -->
+
+<script type="text/javascript" src="dataPoints10.json"></script>
+<script rel="preload" type="text/javascript" src="index3.js"></script>
+
+
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+</head>
+<body >
+<br><br><br><br>
+
+<div id='myDiv' ><!-- Plotly chart will be drawn inside this DIV --></div>
+
+
+<div id='myDiv2'><!-- Plotly chart will be drawn inside this DIV --></div>
+
+
+<!-- <svg width="500" height="500">
+    <rect x="100" y="100" width="300" height="200"></rect>
+</svg>
+ -->
+
+<script>
+// 	var elements = [];
+
+// 	var lineFunction = d3.line()
+//                           .x(function(d) { return d.x; })
+//                           .y(function(d) { return d.y; })
+//                           .curve(d3.curveLinear);
+
+// 	function updateElement(d){
+// 	elements.push(d);
+// }
+//  		var svgContainer = d3.select("body").append("svg")
+//                                     .attr("width", 200)
+//                                     .attr("height", 200);
+
+
+//  	d3.json("dataPoints10.json", function(data) {
+//  	//elements = data;
+//  	//console.log(elements)
+//  	for( i =0; i< 4;i++){
+//  		updateElement(data[i])
+//  		//elements.push(data[i]);
+//  		var lineData =  data[i]['cordinates'];
+
+
+// var lineGraph = svgContainer.append("path")
+//                             .attr("d", lineFunction(lineData))
+//                             .attr("stroke", "blue")
+//                             .attr("stroke-width", 2)
+//                             .attr("fill", "none");
+// console.log(data[i]['cordinates'])
+ 	
+// }
+
+// });
+
+
+</script>
+</body>
+</html>
