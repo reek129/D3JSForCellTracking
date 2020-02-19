@@ -38,12 +38,6 @@ var valueline = d3.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.close); });
 
-// define the line
-var valueline2 = d3.line()
-    .x(function(d) { return x(d.x); })
-    .y(function(d) { return y(d.y); });
-
-
 
 
 var svg = d3.select("body").append("svg")
@@ -105,7 +99,7 @@ var max_y = - Math.pow(10,10);
        elements.push(ele);
      }
     
-    console.log(elements);
+    // console.log(elements);
     console.log(max_x);
 
      console.log(min_y);
@@ -113,11 +107,11 @@ var max_y = - Math.pow(10,10);
 
 // scale data acording to min max of cell data
 var x1 = d3.scaleLinear()
-    .domain([min_x-50, max_x+50]) 
+    .domain([min_x-100, max_x+100]) 
     .range([0, width]);  
 
     var y1 = d3.scaleLinear()
-    .domain([min_y-50, max_y+50])      
+    .domain([min_y-100, max_y+100])      
     .range([height, 0]);
     //append svg
 var svg2 = d3.select("#cell_plot")
@@ -136,13 +130,25 @@ svg2
   .append('g')
   .call(d3.axisLeft(y1));
 
+
+// define the line
+var valueline2 = d3.line()
+    .x(function(d) { return x1(d.x); })
+    .y(function(d) { return y1(d.y); });
+
+
+
 for(var i in elements){
 	//console.log(elements[i].coordinate);
-
-	svg.append("path")
+// i=1
+// console.log(elements[i].coordinate);
+// console.log(valueline2);
+var randomColor = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+console.log(randomColor);
+	svg2.append("path")
       .data([elements[i].coordinate])
       .attr("class", "line")
-      .style("stroke", "red")
+      .style("stroke", randomColor)
       .attr("d", valueline2);
 }
 
