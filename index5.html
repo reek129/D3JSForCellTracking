@@ -1,0 +1,185 @@
+<html>
+    <head>
+        <title>My sample HTML page</title>
+       <!--  <script src="https://d3js.org/d3.v4.js"></script> -->
+<script src = "https://d3js.org/d3.v4.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="dataPoints10.json"></script>
+
+<style> /* set the CSS */
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+</style>
+    </head>
+    <body>
+    	<div id="cell_plot"></div>
+
+    	<script>
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+
+// parse the date / time
+var parseTime = d3.timeParse("%d-%b-%y");
+
+// set the ranges
+var x = d3.scaleTime().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+
+// define the line
+var valueline = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.close); });
+
+// define the line
+var valueline2 = d3.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); });
+
+
+
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+
+//get cell data
+var max_y = - Math.pow(10,10);
+    var min_y = Math.pow(10,10);
+    var max_x = -Math.pow(10,10)
+    var min_x = Math.pow(10,10);
+ var elements = [];
+    d3.json("dataPoints10.json", function(data) {
+     
+//   console.log(data[1])
+     function get_elements(da){
+        var element={};
+        var y = [];
+        var x = [];
+        // console.log(da.cordinates);
+        element['id']=da.particle_id;
+        element['frames'] = da.frame_list;
+        element['coordinate'] = da.cordinates;
+        for (var co_ord in da.cordinates){
+            //console.log(da.cordinates[co_ord].x);
+            x.push(da.cordinates[co_ord].x);
+            y.push(da.cordinates[co_ord].y);
+        }
+        var temp_x = d3.min(x);
+        if(min_x > temp_x){
+            min_x = temp_x;
+        }
+        temp_x = d3.max(x);
+        if(max_x < temp_x){
+            max_x =temp_x
+        }
+
+        var temp_y = d3.min(y);
+        if(min_y > temp_y){
+            min_y = temp_y;
+        }
+        temp_y = d3.max(y);
+        if(max_y < temp_y){
+            max_y = temp_y;
+        }
+        // console.log(min_x);
+        // console.log(max_x);
+        //adding to element
+
+        return element;
+        
+     }
+     for (var d in data){
+       var ele =  get_elements(data[d]);
+       elements.push(ele);
+     }
+    
+    console.log(elements);
+    console.log(max_x);
+
+     console.log(min_y);
+     console.log(max_y);
+
+// scale data acording to min max of cell data
+var x1 = d3.scaleLinear()
+    .domain([min_x-50, max_x+50]) 
+    .range([0, width]);  
+
+    var y1 = d3.scaleLinear()
+    .domain([min_y-50, max_y+50])      
+    .range([height, 0]);
+    //append svg
+var svg2 = d3.select("#cell_plot")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  // translate this svg element to leave some margin.
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg2
+  .append('g')
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x1));
+svg2
+  .append('g')
+  .call(d3.axisLeft(y1));
+
+for(var i in elements){
+	//console.log(elements[i].coordinate);
+
+	svg.append("path")
+      .data([elements[i].coordinate])
+      .attr("class", "line")
+      .style("stroke", "red")
+      .attr("d", valueline2);
+}
+
+
+     });
+
+
+// Get the data
+d3.csv("data.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+      d.date = parseTime(d.date);
+      d.close = +d.close;
+  });
+
+  // Scale the range of the data
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.close; })]);
+
+  // Add the valueline path.
+  svg.append("path")
+      .data([data])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+  // Add the X Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // Add the Y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
+
+});
+    	</script>
+</body>
+</html>
